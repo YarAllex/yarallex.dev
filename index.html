@@ -1,28 +1,157 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>yarallex</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-  body { font-family: system-ui, sans-serif; max-width: 600px; margin: 4rem auto; padding: 0 1rem; line-height: 1.6; }
-  a { color: #0969da; }
-  h1 { margin-bottom: 0.2em; }
-  .tag { color: #666; font-size: 0.9em; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yarallex.dev</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%2300ff41%22 font-family=%22monospace%22>></text></svg>">
+
+    <style>
+        :root { --color: #00ff41; --bg: #0a0a0a; }
+        body {
+            background: var(--bg);
+            color: var(--color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+        .terminal {
+            width: 100%;
+            max-width: 640px;
+            border: 1px solid var(--color);
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.15);
+            position: relative;
+        }
+        .terminal::before {
+            content: "SYSTEM STATUS: ACTIVE";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-size: 0.8rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-family: monospace;
+            letter-spacing: -1px;
+        }
+
+        .cursor { animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .glitch { font-size: 0.9rem; opacity: 0.7; margin-top: 10px; }
+
+        .logs-container {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            height: 110px;
+            overflow: hidden;
+            opacity: 0.85;
+            font-family: monospace;
+            line-height: 1.5;
+        }
+        .log-entry { color: #888; }
+        .log-entry.success { color: var(--color); }
+
+        .section {
+            margin-top: 25px;
+            border-top: 1px solid rgba(0, 255, 65, 0.3);
+            padding-top: 20px;
+        }
+        .section h2 {
+            font-size: 0.95rem;
+            margin: 0 0 10px;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color);
+            opacity: 0.85;
+        }
+
+        .item { margin: 6px 0; }
+        .item .desc { color: #888; font-size: 0.85rem; padding-left: 4px; }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            padding: 3px 8px;
+            font-family: monospace;
+        }
+        a:hover {
+            background: var(--color);
+            color: #000;
+            box-shadow: 0 0 10px var(--color);
+        }
+    </style>
 </head>
 <body>
-<h1>yarallex</h1>
-<p class="tag">Backend engineering, Gradle plugins, OSS.</p>
+    <div class="terminal">
+        <h1>> YARALLEX.DEV<span class="cursor">_</span></h1>
+        <div class="glitch">Accessing identity... Done.</div>
 
-<h2>Projects</h2>
-<ul>
-  <li><a href="https://github.com/YarAllex/shipyard">shipyard</a> — Gradle plugin: conventional-commits SemVer + Docker release</li>
-</ul>
+        <div class="logs-container" id="logs">
+            <div class="log-entry">Initializing system kernel...</div>
+        </div>
 
-<h2>Links</h2>
-<ul>
-  <li><a href="https://github.com/YarAllex">GitHub</a></li>
-</ul>
+        <div class="section">
+            <h2>// Projects</h2>
+            <div class="item">
+                <a href="https://github.com/YarAllex/shipyard">[ shipyard ]</a>
+                <span class="desc">Gradle plugin — conventional-commits SemVer + Docker release</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>// Links</h2>
+            <div class="item">
+                <a href="https://github.com/YarAllex">[ GITHUB ]</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const logLines = [
+            "Loading security protocols...",
+            "Verifying domain ownership: yarallex.dev",
+            "SSL certificate validated.",
+            "GPG key fingerprint matched.",
+            "Maven coordinates registered: dev.yarallex.*",
+            "System ready. Welcome."
+        ];
+
+        const logsDiv = document.getElementById('logs');
+        let index = 0;
+
+        function addLog() {
+            if (index < logLines.length) {
+                const line = document.createElement('div');
+                line.className = 'log-entry';
+                if (logLines[index].includes('matched') || logLines[index].includes('ready') || logLines[index].includes('validated')) {
+                    line.classList.add('success');
+                }
+                line.textContent = `[${new Date().toLocaleTimeString()}] ${logLines[index]}`;
+                logsDiv.appendChild(line);
+                logsDiv.scrollTop = logsDiv.scrollHeight;
+                index++;
+                setTimeout(addLog, Math.random() * 600 + 200);
+            }
+        }
+
+        setTimeout(addLog, 800);
+    </script>
 </body>
 </html>
